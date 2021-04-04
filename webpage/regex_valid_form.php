@@ -7,6 +7,18 @@
 
 	$match="Not checked yet.";
 
+	$spaceString = "";
+	$spacePattern = "/\s+/";
+	$noSpaceString = "";
+
+	$nonNumericString = "";
+	$numericReg = "/[^0-9,.]/";
+	$numericString = "";
+
+	$newLineString = "";
+	$noNewLineString = "";
+	$newLineReg = "/[\n]/";
+
 if ($_SERVER["REQUEST_METHOD"]=="POST") {
 	$pattern=$_POST["pattern"];
 	$text=$_POST["text"];
@@ -19,6 +31,14 @@ if ($_SERVER["REQUEST_METHOD"]=="POST") {
 					} else {
 						$match="Does not match!";
 					}
+	$spaceString = $_POST["spaceString"];
+    $noSpaceString = preg_replace($spacePattern, "", $spaceString);
+
+    $nonNumericString = $_POST["nonNumericString"];
+    $numericString = preg_replace($numericReg, "", $nonNumericString);
+
+    $newLineString = $_POST["newLineString"];
+    $noNewLineString = preg_replace($newLineReg, "", $newLineString);
 }
 
 ?>
@@ -51,7 +71,35 @@ if ($_SERVER["REQUEST_METHOD"]=="POST") {
 			<dt>&nbsp;</dt>
 			<dd><input type="submit" value="Check"></dd>
 		</dl>
+        <dl>
+            <dt>Enter text to remove white space from:</dt>
+            <dd><input type="text" name="spaceString" value="<?= $spaceString ?>"></dd>
 
+            <dt>Output Text</dt>
+            <dd><?=	$noSpaceString ?></dd>
+
+            <dt>&nbsp;</dt>
+            <dd><input type="submit" value="Check"></dd>
+        </dl>
+        <dl>
+            <dt>Enter text to remove nonnumeric chars from:</dt>
+            <dd><input type="text" name="nonNumericString" value="<?= $nonNumericString ?>"></dd>
+
+            <dt>Output Text</dt>
+            <dd><?=	$numericString ?></dd>
+
+            <dt>&nbsp;</dt>
+            <dd><input type="submit" value="Check"></dd>
+        </dl>
+        <dl>
+            <dt>Enter text to remove newline chars from:</dt>
+            <dd><textarea name="newLineString" rows="10" cols="50"> </textarea></dd>
+
+            <dt>Output Text</dt>
+            <dd><?=	$noNewLineString ?></dd>
+            <dt>&nbsp;</dt>
+            <dd><input type="submit" value="Check"></dd>
+        </dl>
 	</form>
 </body>
 </html>
